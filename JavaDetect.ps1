@@ -67,9 +67,6 @@ $existingDetailDetails = Read-ExistingData $detailFile
 # Create a hashtable to store new Java details
 $javaDetails = @{}
 
-# Create a hashtable to store new Java details
-$javaDetails = @{}
-
 # Get all logical disk drives except CD-ROM
 $drives = Get-PSDrive -PSProvider 'FileSystem' | Where-Object { $_.Free -ne $null }
 
