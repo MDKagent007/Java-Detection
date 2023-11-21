@@ -1,0 +1,19 @@
+Installation Instructions
+
+1. Designate a server where you will install the scripts.
+2. Create a directory in C:\PowerShell\DetectJava\ and C:\PowerShell\DetectJava\Systems.
+3. Copy all the scripts you find in this respository to C:\PowerShell\DetectJava\.
+4. Create a network share (can be hidden or not, your choice) that points to C:\PowerShell\DetectJava\.
+5. Make sure that the network share permissions includes everyone for Read/Write.
+6. Make sure that the security permissions are either set to a particular service account or everybody with Read/Write.
+7. Execute the following script on any remote server or workstation
+
+    # The following 3 lines illustrate the code that needs to be executed locally on the server or workstation that is being scanned for Java versions
+    # The code below will either be executed by a particular user account or just run by any user that falles into the 'everybody' category for security permissions
+
+    $serverName = "<SERVER_NAME>"      #Replace <SERVER_NAME> with actual server name where the scripts are all located.
+    $networkShare = "<NETWORK_SHARE>"  #Replace <NETWORK_SHARE> with the actual server network share, hidden or not; with at least the service account running the script or all users having read/write permissions
+
+    Set-ExecutionPolicy -ExecutionPolicy Unrestricted -force      #forces 'Unrestricted' policy on the local system temporarily in order to allow script execution
+    powershell -executionpolicy bypass -file "\\" + $serverName + "\" + networkShare + "\JavaDetect.ps1"
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -force      #forces 'RemoteSigned' policy after script execution has completed
