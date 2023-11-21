@@ -67,25 +67,33 @@ $existingDetailDetails = Read-ExistingData $detailFile
 # Create a hashtable to store new Java details
 $javaDetails = @{}
 
-# Find all java.exe files and process each one
-Get-Childitem -Path 'C:\' -Filter 'java.exe' -Recurse -Force -ErrorAction SilentlyContinue | ForEach-Object {
-    # Get the version and product name
-    $fileInfo = $_ | Get-Item -ErrorAction SilentlyContinue
-    $version = $fileInfo.VersionInfo.ProductVersion
-    $productName = $fileInfo.VersionInfo.ProductName
-    $path = $fileInfo.FullName
-    
-    # Check if this Java version with the same path is already in our hashtable
-    if ($javaDetails.ContainsKey($path)) {
-        # Increment quantity for existing item
-        $javaDetails[$path].Quantity++
-    } else {
-        # Add new item to the hashtable
-        $javaDetails[$path] = [PsCustomObject]@{
-            'Path'        = $path
-            'Version'     = $version
-            'ProductName' = $productName
-            'Quantity'    = 1
+# Create a hashtable to store new Java details
+$javaDetails = @{}
+
+# Get all logical disk drives except CD-ROM
+$drives = Get-PSDrive -PSProvider 'FileSystem' | Where-Object { $_.Free -ne $null }
+
+# Iterate over each drive and find all java.exe files
+foreach ($drive in $drives) {
+    Get-ChildItem -Path $drive.Root -Filter 'java.exe' -Recurse -Force -ErrorAction SilentlyContinue | ForEach-Object {
+        # Get the version and product name
+        $fileInfo = $_ | Get-Item -ErrorAction SilentlyContinue
+        $version = $fileInfo.VersionInfo.ProductVersion
+        $productName = $fileInfo.VersionInfo.ProductName
+        $path = $fileInfo.FullName
+        
+        # Check if this Java version with the same path is already in our hashtable
+        if ($javaDetails.ContainsKey($path)) {
+            # Increment quantity for existing item
+            $javaDetails[$path].Quantity++
+        } else {
+            # Add new item to the hashtable
+            $javaDetails[$path] = [PsCustomObject]@{
+                'Path'        = $path
+                'Version'     = $version
+                'ProductName' = $productName
+                'Quantity'    = 1
+            }
         }
     }
 }
