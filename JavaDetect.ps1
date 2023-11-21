@@ -29,8 +29,8 @@ $networkShare = "<NETWORK_SHARE>"  #Replace <NETWORK_SHARE> with the actual serv
 #****************************************************************************************************************************************************************
 
 # Define the output files
-$summaryFile = "\\" + $serverName + "\" + networkShare + "\JavaVersionsSummary.txt"
-$detailFile = "\\" + $serverName + "\" + networkShare + "\Systems\" + $env:COMPUTERNAME + "_JavaDetails.txt"
+$summaryFile = "\\" + $serverName + "\" + $networkShare + "\JavaVersionsSummary.txt"
+$detailFile = "\\" + $serverName + "\" + $networkShare + "\Systems\" + $env:COMPUTERNAME + "_JavaDetails.txt"
 
 # Function to format each line for the text file
 Function Format-Line($javaDetail) {
