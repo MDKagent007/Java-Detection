@@ -9,7 +9,7 @@ Installation Instructions
 7. Execute the following script on any remote server or workstation
 
     # The following 3 lines illustrate the code that needs to be executed locally on the server or workstation that is being scanned for Java versions
-    # The code below will either be executed by a particular user account or just run by any user that falles into the 'everybody' category for security permissions
+    # The code below will either be executed by a particular service account or just run by any user that falles into the 'everybody' category for security permissions
 
     $serverName = "<SERVER_NAME>"      #Replace <SERVER_NAME> with actual server name where the scripts are all located.
     $networkShare = "<NETWORK_SHARE>"  #Replace <NETWORK_SHARE> with the actual server network share, hidden or not; with at least the service account running the script or all users having read/write permissions
