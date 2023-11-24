@@ -1,19 +1,34 @@
-Installation Instructions
+Guidelines for Setting Up Java Detection Scripts
 
-1. Designate a server where you will install the scripts.
-2. Create a directory in C:\PowerShell\DetectJava\ and C:\PowerShell\DetectJava\Systems.
-3. Copy all the scripts you find in this respository to C:\PowerShell\DetectJava\.
-4. Create a network share (can be hidden or not, your choice) that points to C:\PowerShell\DetectJava\.
-5. Make sure that the network share permissions includes everyone for Read/Write.
-6. Make sure that the security permissions are either set to a particular service account or everybody with Read/Write.
-7. Execute the following script on any remote server or workstation
+1. Choose a server for script installation.
+2. On the chosen server, create two folders at these paths: C:\PowerShell\DetectJava\ and C:\PowerShell\DetectJava\Systems.
+3. Transfer all scripts from this repository to C:\PowerShell\DetectJava.
+4. Establish a network share pointing to C:\PowerShell\DetectJava. This can be either visible or hidden, depending on your preference.
+5. Configure the network share to allow everyone Read/Write access.
+    (a) Adjust security settings to grant either a specific service account or all users Read/Write permissions.
+6. Run the following script on any target server or workstation to detect Java versions:
 
-    # The following 3 lines illustrate the code that needs to be executed locally on the server or workstation that is being scanned for Java versions
-    # The code below will either be executed by a particular service account or just run by any user that falls into the 'everybody' category for security permissions
+    Replace <SERVER_NAME> with the name of the server hosting the scripts.
+    Replace <NETWORK_SHARE> with the name of the network share.
 
-    $serverName = "<SERVER_NAME>"      #Replace <SERVER_NAME> with actual server name where the scripts are all located.
-    $networkShare = "<NETWORK_SHARE>"  #Replace <NETWORK_SHARE> with the actual server network share, hidden or not; with at least the service account running the script or all users having read/write permissions
+    Script commands:
 
-    Set-ExecutionPolicy -ExecutionPolicy Unrestricted -force      #forces 'Unrestricted' policy on the local system temporarily in order to allow script execution
-    powershell -executionpolicy bypass -file "\\" + $serverName + "\" + networkShare + "\JavaDetect.ps1"
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -force      #forces 'RemoteSigned' policy after script execution has completed
+        $serverName = "<SERVER_NAME>"
+        $networkShare = "<NETWORK_SHARE>"
+
+    Execute:
+
+    Set execution policy to Unrestricted temporarily.
+        Set-ExecutionPolicy -ExecutionPolicy Unrestricted -force 
+
+    Run the JavaDetect.ps1 script.
+        powershell -executionpolicy bypass -file "\\" + $serverName + "\" + networkShare + "\JavaDetect.ps1"
+
+    Revert execution policy to RemoteSigned.
+        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -force
+
+
+    Note: If your scripts are digitally signed, altering the execution policy isn't required.
+
+7. For spreadsheet-formatted output, ensure both convert*.ps1 scripts are in the same directory as JavaDetect.ps1. Running these will generate an XLSX file report.
+
